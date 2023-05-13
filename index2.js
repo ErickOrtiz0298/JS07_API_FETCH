@@ -1,5 +1,7 @@
 let url = 'https://reqres.in/api/users?delay=3';
 
+
+
 fetch (url)
     .then( response => response.json() )
     .then( users => mostrarData(users) )//mandar a imprimir la informacion
@@ -39,8 +41,8 @@ const buscarConExpiracion = (key) => {
     let fechaHoraUTC = new Date(`${data.fecha}`);
     let fechaHoraLocal = new Date(fechaHoraUTC.getTime() - (fechaHoraUTC.getTimezoneOffset()));
     
-    if (fecha-fechaHoraLocal < ( 1 * 15 * 1000)) { //10seg 3 min en ms 3 * 60 * 1000
-      console.log("No han pasado más de 15 seg");
+    if (fecha-fechaHoraLocal < ( 1 * 60 * 1000)) { // 1 min en ms 1* 60 * 1000
+      console.log("No ha pasado más de 1 min");
       console.log(fecha - fechaHoraLocal);
       mostrarDataLocalStorage();
       
