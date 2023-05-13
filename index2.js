@@ -1,5 +1,6 @@
 let url = 'https://reqres.in/api/users?delay=3';
-/* fetch(url)
+
+fetch (url)
     .then( response => response.json() )
     .then( users => mostrarData(users) )//mandar a imprimir la informacion
     .catch( error => console.log(error) )
@@ -12,13 +13,13 @@ const mostrarData = (users) => {
     document.getElementById('datosParaMostrar').innerHTML = body;
     guardarConExpiracion('users',users.data);
 
-} */
+}
 
 
-/* function guardarConExpiracion(key, value) {
+const guardarConExpiracion =(key, value) => {
     const data = { 'data': value, 'fecha': new Date() };
     localStorage.setItem(key, JSON.stringify(data));
-}  */
+}  
 
 const mostrarDataLocalStorage = () => {
     let valorLeidoLocalStorage = JSON.parse(localStorage.getItem('users'));
@@ -31,26 +32,25 @@ const mostrarDataLocalStorage = () => {
 } 
 
 
-function buscarConExpiracion(key) {
+const buscarConExpiracion = (key) => {
     const data = JSON.parse(localStorage.getItem('users'));
     const fecha = new Date();
 
-    console.log("Funcion buscar con expiracion");
-
     let fechaHoraUTC = new Date(`${data.fecha}`);
     let fechaHoraLocal = new Date(fechaHoraUTC.getTime() - (fechaHoraUTC.getTimezoneOffset()));
-    console.log(fechaHoraLocal);
-    console.log(fecha);
-    console.log(fecha-fechaHoraLocal);
-    if (fecha-fechaHoraLocal > ( 1*60 * 1000)) { // 3 min en ms
-      console.log("Se borraron los datos");
-      console.log(data.fecha);
-      console.log(fecha);
-      localStorage.removeItem(key);
+    
+    if (fecha-fechaHoraLocal < ( 1 * 15 * 1000)) { //10seg 3 min en ms 3 * 60 * 1000
+      console.log("No han pasado más de 15 seg");
+      console.log(fecha - fechaHoraLocal);
+      mostrarDataLocalStorage();
+      
       return null;
     } else {
+    console.log("Se borraron los datos");
+     localStorage.removeItem(key);
      return data.data
     }
  }
-mostrarDataLocalStorage();
+
+
 buscarConExpiracion('users');
